@@ -6,12 +6,13 @@ import jwt from 'jsonwebtoken';
 
 connect();
 
-export async function POST(request:NextResponse)
+export async function POST(request:NextRequest)
 {
     try{
         const reqBody = await request.json();
         const {email,password} = reqBody;
-
+        console.log(reqBody);
+        
         const user = await User.findOne({email});
 
         if(!user)
@@ -20,8 +21,10 @@ export async function POST(request:NextResponse)
                     error:"User does not exist"
                 },{status:400})
         }
+        console.log("user exists");
+        
 
-        const validPass = bcryptjs.compare(password,user.password);
+        const validPass = await bcryptjs.compare(password,user.password);
 
         if(!validPass)
             {
@@ -29,6 +32,8 @@ export async function POST(request:NextResponse)
                     error:"Invalid Password"
                 },{status:500})
             }
+        console.log(user);
+        
         
         //create token data 
 
@@ -40,7 +45,7 @@ export async function POST(request:NextResponse)
 
         //set token data
 
-        const token = await jwt.sign(tokenData,process.env.TOKEN_SECRET!,{expiresIn: "1h"});
+        const token = await jwt.sign(tokenData,process.env.TOKEN_SECRET!,{expiresIn: "1d"});
 
         const response = NextResponse.json({
             message: "Login sucessgul",
