@@ -20,7 +20,7 @@ export default function ResetPasswordPage() {
       setLoading(true);
       const response = await axios.post("/api/users/resetpassword", { token, newPassword });
       toast.success("Password reset successful");
-      //router.push("/login");
+      router.push("/login");
     } catch (error: any) {
       toast.error("Failed to reset password");
     } finally {
@@ -38,6 +38,7 @@ export default function ResetPasswordPage() {
         onChange={(e) => setNewPassword(e.target.value)}
         placeholder="New Password"
       />
+      {token}
       <button
         onClick={onResetPassword}
         type="button"
