@@ -74,6 +74,7 @@ const LoginPage = () => {
       <Link href="/signup" passHref>
         Not log in Sign up
       </Link>
+      <Link passHref href="/forgotpassword">Forgot Password</Link>
     </div>
   );
 };
